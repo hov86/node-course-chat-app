@@ -5,14 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Node Chat App</title>
+    <title>Piper Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
 </head>
 
 <body>
-    <h3>Welcome to the chat app!</h3>
 
-    <script src='/socket.io/socket.io.js'></script>
-    <script src="./js/index.js"></script>
+    <section class="hero is-light">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">
+                    Welcome to Piper Chat!
+                </h1>
+                <hr>
+                <div class="columns is-centered">
+                    <form id="message-form" action="/">
+                        <div class="field is-horizontal has-addons">
+                            <div class="control">
+                                <input id="input-field" class="input is-rounded" type="text" placeholder="Enter your message here">
+                            </div>
+                            <div class="control">
+                                <button id="submit" type="submit" class="button is-rounded is-primary">
+                                    <span class="icon">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </span>
+                                    <span>Send</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="columms has-text-centered">
+                <ol id="messages"></ol>
+            </div>
+        </div>
+    </section>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/assets/js/index.js"></script>
 </body>
 
 </html>
