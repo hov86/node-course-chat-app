@@ -13,21 +13,51 @@
 
 <body>
 
-    <section class="hero is-light">
+    <section class="hero is-primary is-medium">
+        <!-- Hero head: will stick at the top -->
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item">
+                            <span class="icon">
+                                <i class="fab fa-pied-piper"></i>
+                            </span>
+                            <span>PiedPiper Chat</span>
+                        </a>
+                    </div>
+
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+                            <span class="navbar-item">
+                                <a id="send-location" class="button is-rounded is-primary is-inverted">
+                                    <span class="icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    <span>Share Location</span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Hero content: will be in the middle -->
         <div class="hero-body">
             <div class="container has-text-centered">
                 <h1 class="title">
                     Welcome to Piper Chat!
                 </h1>
-                <hr>
+                <br>
                 <div class="columns is-centered">
                     <form id="message-form" action="/">
                         <div class="field is-horizontal has-addons">
                             <div class="control">
-                                <input id="input-field" class="input is-rounded" type="text" placeholder="Enter your message here">
+                                <input id="input-field" class="input is-rounded" type="text" placeholder="Type something...">
                             </div>
                             <div class="control">
-                                <button id="submit" type="submit" class="button is-rounded is-primary">
+                                <button id="submit" type="submit" class="button is-rounded is-primary is-inverted">
                                     <span class="icon">
                                         <i class="fas fa-paper-plane"></i>
                                     </span>
@@ -43,9 +73,8 @@
 
     <section>
         <div class="container">
-            <div class="columms has-text-centered">
-                <ol id="messages"></ol>
-            </div>
+            <br>
+            <div id="messages"></div>
         </div>
     </section>
 
