@@ -25,32 +25,14 @@ socket.on('disconnect', function () {
     console.log('Disconnected from server');
 });
 
-socket.on('newEmail', function (email) {
-    console.log('New email', email);
-});
-
 socket.on('newMessage', function (message) {
     messages.innerHTML +=
-    `<div class="box">
-        <article class="media">
-            <div class="media-left">
-            <figure class="image is-64x64">
-                <img src="https://source.unsplash.com/collection/520539/64x64" alt="Image">
-            </figure>
-            </div>
-            <div class="media-content">
-                <div class="content">
-                    <p>
-                    <strong>${message.from}</strong>
-                    <small>${postedTime}</small>
-                    <br>
-                    ${message.text}
-                    </p>
-                </div>
-            </div>
-        </article>
-    </div>`
-
+    `
+    <div class="notification">
+        <p><strong>${message.from}</strong>: ${message.text}</p>
+        <p>${postedTime}</p>
+    </div>
+    `
 });
 
 socket.on('newLocationMessage', function (message) {
@@ -59,7 +41,7 @@ socket.on('newLocationMessage', function (message) {
     <article class="message is-primary">
         <div class="message-body">
             <p>${message.from} has shared their location!</p>
-            <a href="${message.url}" target="_blank"><span class="icon"><i class="fas fa-map-marked-alt"></i></span></a>
+            <a href="${message.url}" target="_blank"><span class="icon"><i class="fas fa-map-marked-alt"> Check it out! </i></span></a>
         </div>
     </article>
     `
@@ -72,22 +54,29 @@ messageForm.addEventListener('submit', function (e) {
         from: 'User',
         text: inputField.value
     }, function () {
-
+        messageForm.reset();
     });
-    messageForm.reset();
 });
 
 sendLocation.addEventListener('click', () => {
     if (!navigator.geolocation) {
         return alert('Gelocation not supported by your browser.');
     }
+    sendLocation.setAttribute('disabled', true);
+    sendLocation.innerHTML = "Retrieving";
 
     navigator.geolocation.getCurrentPosition(function (position) {
+        sendLocation.removeAttribute('disabled');
+        sendLocation.innerHTML = `<span class="icons"><i class="fas fa-map-marker-alt"> Share Location</i></span>`;
+
         socket.emit('createLocationMessage', {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         });
     }, function () {
+        sendLocation.removeAttribute('disabled');
+        sendLocation.innerHTML = `<span class="icons"><i class="fas fa-map-marker-alt"> Share Location</i></span>`;
         alert('Unable to fetch location.')
     });
+
 });
