@@ -5,18 +5,6 @@ const submitButton = document.querySelector('#submit');
 const messages = document.querySelector('#messages');
 const sendLocation = document.querySelector('#send-location');
 
-let postedTime = dateTime();
-
-function dateTime() {
-var d = new Date(),
-    minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
-    hours = d.getHours().toString().length == 1 ? '0'+d.getHours() : d.getHours(),
-    ampm = d.getHours() >= 12 ? 'pm' : 'am',
-    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+ (hours - 12) +':'+ minutes + ampm;
-};
-
 socket.on('connect', function () {
     console.log('Connected to server');
 });
@@ -26,22 +14,24 @@ socket.on('disconnect', function () {
 });
 
 socket.on('newMessage', function (message) {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
     messages.innerHTML +=
     `
     <div class="notification">
-        <p><strong>${message.from}</strong>: ${message.text}</p>
-        <p>${postedTime}</p>
+        <p><strong>${message.from}</strong> ${formattedTime}: ${message.text}</p>
     </div>
     `
 });
 
 socket.on('newLocationMessage', function (message) {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
     messages.innerHTML +=
     `
     <article class="message is-primary">
         <div class="message-body">
             <p>${message.from} has shared their location!</p>
             <a href="${message.url}" target="_blank"><span class="icon"><i class="fas fa-map-marked-alt"> Check it out! </i></span></a>
+            ${formattedTime}
         </div>
     </article>
     `
@@ -63,7 +53,7 @@ sendLocation.addEventListener('click', () => {
         return alert('Gelocation not supported by your browser.');
     }
     sendLocation.setAttribute('disabled', true);
-    sendLocation.innerHTML = "Retrieving";
+    sendLocation.innerHTML = "Sending Location";
 
     navigator.geolocation.getCurrentPosition(function (position) {
         sendLocation.removeAttribute('disabled');
