@@ -13,28 +13,30 @@ socket.on('disconnect', function () {
     console.log('Disconnected from server');
 });
 
+// New Message
 socket.on('newMessage', function (message) {
     let formattedTime = moment(message.createdAt).format('h:mm a');
-    messages.innerHTML +=
-    `
-    <div class="notification">
-        <p><strong>${message.from}</strong> ${formattedTime}: ${message.text}</p>
-    </div>
-    `
+    let template = document.querySelector('#message-template').innerHTML;
+    let html = Mustache.render(template, {
+        text: message.text,
+        from: message.from,
+        createdAt: formattedTime
+    });
+
+    messages.insertAdjacentHTML('beforeend', html);
 });
 
+// New Location Message
 socket.on('newLocationMessage', function (message) {
     let formattedTime = moment(message.createdAt).format('h:mm a');
-    messages.innerHTML +=
-    `
-    <article class="message is-primary">
-        <div class="message-body">
-            <p>${message.from} has shared their location!</p>
-            <a href="${message.url}" target="_blank"><span class="icon"><i class="fas fa-map-marked-alt"> Check it out! </i></span></a>
-            ${formattedTime}
-        </div>
-    </article>
-    `
+    let template = document.querySelector('#location-message-template').innerHTML;
+    let html = Mustache.render(template, {
+        url: message.url,
+        from: message.from,
+        createdAt: formattedTime
+    });
+
+    messages.insertAdjacentHTML('beforeend', html);
 });
 
 messageForm.addEventListener('submit', function (e) {
@@ -48,7 +50,8 @@ messageForm.addEventListener('submit', function (e) {
     });
 });
 
-sendLocation.addEventListener('click', () => {
+sendLocation.addEventListener('click', (e) => {
+    e.preventDefault();
     if (!navigator.geolocation) {
         return alert('Gelocation not supported by your browser.');
     }
