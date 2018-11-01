@@ -5,6 +5,25 @@ const submitButton = document.querySelector('#submit');
 const messages = document.querySelector('#messages');
 const sendLocation = document.querySelector('#send-location');
 
+async function scrollToBottom() {
+    // Selectors
+    const messages = document.querySelector('#messages');
+    let newMessage = messages.lastElementChild;
+
+    // Heights
+    let clientHeight = messages.clientHeight;
+    let scrollTop = messages.scrollTop;
+    let scrollHeight = messages.scrollHeight;
+    let newMessageHeight = newMessage.clientHeight;
+    let lastMessageHeight = await newMessage.previousElementSibling.clientHeight;
+
+    if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+        newMessage.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+    }
+
+    console.log('Should Scroll');
+}
+
 socket.on('connect', function () {
     console.log('Connected to server');
 });
@@ -24,6 +43,7 @@ socket.on('newMessage', function (message) {
     });
 
     messages.insertAdjacentHTML('beforeend', html);
+    scrollToBottom();
 });
 
 // New Location Message
@@ -37,6 +57,8 @@ socket.on('newLocationMessage', function (message) {
     });
 
     messages.insertAdjacentHTML('beforeend', html);
+    console.log(html);
+    scrollToBottom();
 });
 
 messageForm.addEventListener('submit', function (e) {
