@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Piper Chat | Main</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+
+<body class="chat">
+
+    <div class="chat__sidebar">
+        <h3><span class="icon"><i class="fab fa-pied-piper"></i> Piper Chat</span></h3>
+        <div id="users"></div>
+    </div>
+
+    <div class="chat__main">
+        <ol id="messages" class="chat__messages"></ol>
+
+        <div class="chat__footer">
+            <form id="message-form">
+                <input id="input-field" type="text" name="message" placeholder="Type something here..." autofocus
+                    autocomplete="off" required>
+                <button><span class="icon"><i class="fas fa-paper-plane"> Send Message</i></span></button>
+            </form>
+
+            <button id="send-location"><span class="icon"><i class="fas fa-map-marker-alt"> Share Location</i></span></button>
+        </div>
+
+    </div>
+
+    <script id="message-template" type="text/template">
+        <li class="message">
+            <div class="message__title">
+                <h4>{{from}}</h4>
+                <span>{{createdAt}}</span>
+            </div>
+            <div class="message__body">
+                <p>{{text}}</p>
+            </div>
+        </li>
+    </script>
+
+    <script id="location-message-template" type="text/template">
+        <li class="message">
+            <div class="message__title">
+                <h4>{{from}}</h4>
+                <span>{{createdAt}}</span>
+            </div>
+            <div class="message__body">
+                <a href="{{url}}" target="_blank"><span class="icon"><i class="fas fa-map-marked-alt"> My current location</i></span></a>
+            </div>
+        </li>
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="assets/js/moment.js"></script>
+    <script src="assets/js/mustache.js"></script>
+    <script src="assets/js/chat.js"></script>
+</body>
+
+</html>

@@ -57,7 +57,6 @@ socket.on('newLocationMessage', function (message) {
     });
 
     messages.insertAdjacentHTML('beforeend', html);
-    console.log(html);
     scrollToBottom();
 });
 
