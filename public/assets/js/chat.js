@@ -87,7 +87,6 @@ messageForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
     socket.emit('createMessage', {
-        from: 'User',
         text: inputField.value
     }, function () {
         messageForm.reset();
